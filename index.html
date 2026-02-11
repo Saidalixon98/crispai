@@ -1,21 +1,16 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <title>Crisp Custom Chat</title>
 </head>
 <body>
-    <h1>Crips AI Chat CT 45400</h1>
 
-
-
-
-  <!-- Custom Support Button -->
+  <!-- Your Button -->
   <button id="supportBtn" style="
     padding: 12px 20px;
     background: #010101;
-    color: #fff;
+    color: white;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -23,7 +18,7 @@
     Support
   </button>
 
-  <!-- Crisp Script -->
+  <!-- Crisp -->
   <script>
     window.$crisp = [];
     window.CRISP_WEBSITE_ID = "68d3ff59-58b3-4b1e-a9e8-1ea0b80f230d";
@@ -38,38 +33,48 @@
       d.getElementsByTagName("head")[0].appendChild(s);
     })();
 
-    // After page loaded
-    window.addEventListener("load", function () {
+    // Keep widget hidden
+    function hideCrisp() {
+      if (window.$crisp) {
+        $crisp.push(["do", "chat:hide"]);
+      }
+    }
 
-      // Hide default widget
-      $crisp.push(["do", "chat:hide"]);
+    // Always hide (important for WebView)
+    let hideInterval = setInterval(hideCrisp, 800);
 
-      // Open chat on custom button
-      document
-        .getElementById("supportBtn")
-        .addEventListener("click", function () {
+    document.addEventListener("DOMContentLoaded", function () {
 
-          // Show widget
-          $crisp.push(["do", "chat:show"]);
+      // On your button click
+      document.getElementById("supportBtn").addEventListener("click", function () {
 
-          // Open chat
-          $crisp.push(["do", "chat:open"]);
-        });
+        // Stop auto hide
+        clearInterval(hideInterval);
+
+        // Show + Open chat
+        $crisp.push(["do", "chat:show"]);
+        $crisp.push(["do", "chat:open"]);
+
+      });
+
+      // When chat is closed → hide again
+      $crisp.push(["on", "chat:closed", function () {
+
+        // Start hiding again
+        hideInterval = setInterval(hideCrisp, 800);
+
+        hideCrisp();
+
+      }]);
 
     });
   </script>
 
-
-    
-
-
-
-    
-    
- 
 </body>
-
 </html>
+
+
+
 
 
 
